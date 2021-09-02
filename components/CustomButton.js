@@ -1,0 +1,35 @@
+import React from "react";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import colors from "../res/colors";
+import { useNavigation } from "@react-navigation/native";
+
+const CustomButton = ({ title, navigateTo }) => {
+  const navigation = useNavigation();
+  return (
+    <TouchableOpacity
+      style={styles.Button}
+      onPress={() => navigation.navigate(navigateTo)}
+    >
+      <Text style={styles.text}>{title} </Text>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  Button: {
+    marginTop: 50,
+    borderRadius: 10,
+    backgroundColor: `${colors.primary}`,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 40,
+    width: "90%",
+  },
+  text: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+});
+
+export default CustomButton;
