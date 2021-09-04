@@ -2,6 +2,7 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import colors from "../res/colors";
 import { useNavigation } from "@react-navigation/native";
+import Fonts from "../res/Fonts";
 
 const CustomButton = ({ title, navigateTo }) => {
   const navigation = useNavigation();
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: Fonts.family.bold,
   },
 });
 

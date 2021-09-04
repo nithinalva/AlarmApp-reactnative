@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
 
     textAlign: "center",
+    fontFamily: "Poppins_500Medium",
   },
 });
 
