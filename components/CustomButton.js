@@ -4,12 +4,12 @@ import colors from "../res/colors";
 import { useNavigation } from "@react-navigation/native";
 import Fonts from "../res/Fonts";
 
-const CustomButton = ({ title, navigateTo }) => {
+const CustomButton = ({ title, navigateTo, action }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.Button}
-      onPress={() => navigation.navigate(navigateTo)}
+      onPress={() => (navigateTo ? navigation.navigate(navigateTo) : action)}
     >
       <Text style={styles.text}>{title} </Text>
     </TouchableOpacity>

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dimensions, SafeAreaView, View, Text, StyleSheet } from "react-native";
 import Header from "../components/Header";
 import Fonts from "../res/Fonts";
 import Card from "../components/Card";
 import colors from "../res/colors";
+
 import OptionCard from "../components/OptionCard";
 const { width, height } = Dimensions.get("window");
 

@@ -1,31 +1,41 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-
+import Modal from "react-native-modal";
 import colors from "../res/colors";
 import Fonts from "../res/Fonts";
+import WalletModal from "./WalletModal";
 
 const OptionCard = ({ icon, text }) => {
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+    console.log("pressed");
+  };
   return (
-    <View
-      style={{
-        height: 100,
-        flex: 1,
-        backgroundColor: "#fff",
+    <TouchableOpacity style={{ flex: 1 }} onPress={toggleModal}>
+      <WalletModal visible={isModalVisible} toggle={toggleModal} />
+      <View
+        style={{
+          height: 100,
 
-        borderRadius: 10,
-        margin: 5,
-        alignItems: "center",
+          backgroundColor: "#fff",
 
-        justifyContent: "center",
-        padding: 10,
-      }}
-    >
-      <Icon size={40} color={colors.primary} name={icon} />
-      <Text style={{ textAlign: "center", fontFamily: Fonts.family.primary }}>
-        {text}
-      </Text>
-    </View>
+          borderRadius: 10,
+          margin: 5,
+          alignItems: "center",
+
+          justifyContent: "center",
+          padding: 10,
+        }}
+      >
+        <Icon size={40} color={colors.primary} name={icon} />
+        <Text style={{ textAlign: "center", fontFamily: Fonts.family.primary }}>
+          {text}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 

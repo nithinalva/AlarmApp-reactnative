@@ -19,16 +19,16 @@ import colors from "../res/colors";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import TimeCard from "../components/TimeCard";
 import { v4 as uuidv4 } from "uuid";
-import { NavigationContainer } from "@react-navigation/native";
+
 import Fonts from "../res/Fonts";
 import Icon from "react-native-vector-icons/Ionicons";
+import { useDispatch, useSelector } from "react-redux";
+import { addTime, selectTime } from "../reducers/TimeSlice";
 
 const Alarm = () => {
   const { width, height } = Dimensions.get("window");
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [Time, setTime] = useState({ date: "", time: "", status: false });
-  const [TimeSlots, setTimeSlot] = useState([]);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -38,26 +38,21 @@ const Alarm = () => {
     setDatePickerVisibility(false);
   };
 
-  // const handleConfirm = (date) => {
-  //   console.warn("A date has been picked: ", date.toString());
-
-  //   hideDatePicker();
-  // };
-
-  useEffect(() => {
-    Time.time !== "" ? setTimeSlot([...TimeSlots, Time]) : "";
-  }, [Time]);
+  const dispatch = useDispatch();
+  const timeData = useSelector(selectTime);
+  console.log(timeData.time);
 
   const dateFormat = (data) => {
     console.log(data);
 
-    setTime({
+    const time = {
       id: uuidv4(),
       date: data.slice(0, 15),
       time: data.slice(16, 21),
-
       status: true,
-    });
+    };
+
+    dispatch(addTime(time));
   };
 
   return (
@@ -105,16 +100,14 @@ const Alarm = () => {
       <View style={styles.TimeSlots}>
         <SafeAreaView>
           <ScrollView>
-            {TimeSlots.length > 0 ? (
-              TimeSlots.map((t, index) => (
+            {timeData.time.length > 0 ? (
+              timeData.time.map((t, index) => (
                 <TimeCard
                   time={t.time}
                   date={t.date}
                   status={t.status}
                   key={index}
                   id={t.id}
-                  timeSlots={TimeSlots}
-                  settimeslots={setTimeSlot}
                 />
               ))
             ) : (
