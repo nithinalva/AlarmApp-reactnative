@@ -3,20 +3,16 @@ import { useState } from "react";
 import { View, Text, Switch } from "react-native";
 import colors from "../res/colors";
 import Fonts from "../res/Fonts";
+import { useDispatch } from "react-redux";
+import { updateStatus } from "../reducers/TimeSlice";
 const TimeCard = (props) => {
   const [isEnabled, SetisEnabled] = useState(props.status);
+  const dispatch = useDispatch();
+
   const toggle = () => {
     SetisEnabled(!isEnabled);
-    console.log(props.id);
-    // !isEnabled
-    //   ? props.timeSlots.filter((time) => {
-    //       if (props.id == time.id)
-    //         props.settimeslots(...props.timeSlots, (time.status = false));
-    //     })
-    //   : props.timeSlots.filter((time) => {
-    //       if (props.id == time.id)
-    //         props.settimeslots(...props.timeSlots, (time.status = true));
-    //     });
+
+    dispatch(updateStatus(props.id));
   };
 
   return (
