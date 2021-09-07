@@ -24,6 +24,7 @@ import Fonts from "../res/Fonts";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
 import { addTime, selectTime } from "../reducers/TimeSlice";
+import moment from "moment";
 
 const Alarm = () => {
   const { width, height } = Dimensions.get("window");
@@ -40,16 +41,18 @@ const Alarm = () => {
 
   const dispatch = useDispatch();
   const timeData = useSelector(selectTime);
-  console.log(timeData.time);
+  // console.log(timeData.time);
 
   const dateFormat = (data) => {
-    console.log(data);
+    console.log("indi", data);
+    const event = new Date(data);
 
     const time = {
       id: uuidv4(),
       date: data.slice(0, 15),
       time: data.slice(16, 21),
       status: true,
+      Alarm: event.toISOString(),
     };
 
     dispatch(addTime(time));
@@ -67,7 +70,7 @@ const Alarm = () => {
               minimumDate={new Date()}
               onConfirm={(date) => {
                 hideDatePicker();
-
+                console.log("date is", date);
                 dateFormat(String(date));
               }}
               onCancel={hideDatePicker}

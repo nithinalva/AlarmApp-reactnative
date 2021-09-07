@@ -14,8 +14,11 @@ import Icons from "react-native-vector-icons/";
 
 import Fonts from "../res/Fonts";
 import colors from "../res/colors";
+import { useDispatch } from "react-redux";
+import { addAlert, addMoney } from "../reducers/WalletSlice";
 
 const WalletModal = ({ visible, toggle }) => {
+  const dispatch = useDispatch();
   const [wallet, setWallet] = useState("");
   const [PaymentStatus, setPaymentStatus] = useState(false);
 
@@ -29,12 +32,15 @@ const WalletModal = ({ visible, toggle }) => {
       console.warn("please input a field");
     } else {
       // toggle();
+      dispatch(addMoney(parseInt(wallet)));
+      dispatch(addAlert({ msg: "success", money: wallet }));
       setPaymentStatus(true);
     }
   };
 
   const PaymentSuccessHandler = () => {
     setPaymentStatus(false);
+
     setWallet("");
 
     toggle();

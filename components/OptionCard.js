@@ -6,7 +6,7 @@ import colors from "../res/colors";
 import Fonts from "../res/Fonts";
 import WalletModal from "./WalletModal";
 
-const OptionCard = ({ icon, text }) => {
+const OptionCard = ({ icon, text, walletModal }) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
@@ -14,7 +14,7 @@ const OptionCard = ({ icon, text }) => {
     console.log("pressed");
   };
   return (
-    <TouchableOpacity style={{ flex: 1 }} onPress={toggleModal}>
+    <TouchableOpacity style={{ flex: 1 }} onPress={walletModal && toggleModal}>
       <WalletModal visible={isModalVisible} toggle={toggleModal} />
       <View
         style={{

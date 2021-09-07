@@ -10,6 +10,7 @@ export const TimeSlice = createSlice({
   initialState,
   reducers: {
     addTime: (state, action) => {
+      //dont repeat this mistake again...
       state.time = [...state.time, action.payload];
     },
     updateStatus: (state, action) => {
@@ -29,4 +30,6 @@ export const TimeSlice = createSlice({
 
 export const { addTime, updateStatus } = TimeSlice.actions;
 export const selectTime = (state) => state.time;
+export const selectActiveTime = (state) =>
+  state.time.time.filter((t) => t.status != false);
 export default TimeSlice.reducer;
