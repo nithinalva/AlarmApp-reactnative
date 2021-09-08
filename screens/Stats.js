@@ -6,17 +6,7 @@ import Fonts from "../res/Fonts";
 const Stats = () => {
   return (
     <Header>
-      <View style={{ marginTop: 10 }}>
-        {/* <Text
-          style={{
-            color: "#fff",
-            fontWeight: "bold",
-            fontSize: Fonts.size.heading,
-          }}
-        >
-          My Statstics
-        </Text> */}
-      </View>
+      <View style={{ marginTop: 10 }}></View>
       <Text>Stat Page</Text>
     </Header>
   );

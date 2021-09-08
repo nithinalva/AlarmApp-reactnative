@@ -1,18 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { View, Text, Switch } from "react-native";
+import { UPDATE_STATUS } from "../context/actions/action.types";
+import AlarmContext from "../context/store/AlarmContext";
 import colors from "../res/colors";
 import Fonts from "../res/Fonts";
-import { useDispatch } from "react-redux";
-import { updateStatus } from "../reducers/TimeSlice";
+
 const TimeCard = (props) => {
   const [isEnabled, SetisEnabled] = useState(props.status);
-  const dispatch = useDispatch();
+
+  const { timeDispatch } = useContext(AlarmContext);
 
   const toggle = () => {
     SetisEnabled(!isEnabled);
 
-    dispatch(updateStatus(props.id));
+    timeDispatch({
+      type: UPDATE_STATUS,
+      payload: props.id,
+    });
   };
 
   return (

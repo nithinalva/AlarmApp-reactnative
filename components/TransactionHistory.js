@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { ScrollView, View, Text } from "react-native";
-import { useSelector } from "react-redux";
-import { Alerts } from "../reducers/WalletSlice";
+
 import Fonts from "../res/Fonts";
 import colors from "../res/colors";
+import AlertContext from "../context/store/AlertContext";
 
 const TransactionHistory = () => {
-  const alert = useSelector(Alerts);
+  const { alertState } = useContext(AlertContext);
+  console.log(alertState);
+
   return (
     <ScrollView style={{ height: 170 }}>
-      {alert?.map((msg, index) => (
+      {alertState.message?.map((msg, index) => (
         <View
           key={index}
           style={{
@@ -27,7 +29,7 @@ const TransactionHistory = () => {
               color: colors.textGrey,
             }}
           >
-            {msg}
+            {msg.messge}
           </Text>
         </View>
       ))}

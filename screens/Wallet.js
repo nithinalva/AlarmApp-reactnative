@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Dimensions,
   SafeAreaView,
@@ -11,17 +11,18 @@ import Header from "../components/Header";
 import Fonts from "../res/Fonts";
 import Card from "../components/Card";
 import colors from "../res/colors";
-import { useSelector } from "react-redux";
 
 import OptionCard from "../components/OptionCard";
 import { Alerts, WalletMoney } from "../reducers/WalletSlice";
 import TransactionHistory from "../components/TransactionHistory";
+import WalletContext from "../context/store/WalletContext";
 const { width, height } = Dimensions.get("window");
 
 const Wallet = () => {
-  const wallet = useSelector(WalletMoney);
-  const alert = useSelector(Alerts);
-  console.log(alert);
+  const { walletState, walletDispatch } = useContext(WalletContext);
+
+  useEffect(() => {}, []);
+  console.log(walletState);
   return (
     <View style={{ width, height, marginTop: 20 }}>
       <SafeAreaView style={{ flex: 1 }}>
@@ -69,7 +70,7 @@ const Wallet = () => {
               }}
             >
               {" "}
-              ₹{wallet.wallet ? wallet.wallet : "00.00"}{" "}
+              ₹{walletState.money ? walletState.money : "00.00"}{" "}
             </Text>
           </View>
 

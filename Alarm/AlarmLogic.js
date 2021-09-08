@@ -1,12 +1,9 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import * as Notification from "expo-notifications";
-import * as Permission from "expo-permissions";
-import { useSelector } from "react-redux";
 import moment from "moment";
-import { selectActiveTime } from "../reducers/TimeSlice";
 import { useNavigation } from "@react-navigation/native";
+import AlarmContext from "../context/store/AlarmContext";
 
 Notification.setNotificationHandler({
   // configuring
@@ -20,24 +17,24 @@ Notification.setNotificationHandler({
 
 export default function AlarmLogic() {
   const navigation = useNavigation();
-  const data = useSelector(selectActiveTime);
 
+  const { timeState } = useContext(AlarmContext);
   useEffect(() => {
     handleNotification();
     Notification.addNotificationResponseReceivedListener((handleResponse) => {
       console.log("clciked", handleResponse.notification);
       navigation.navigate("Result");
     });
-  }, [data]);
+  }, [timeState]);
 
   const handleNotification = () => {
     const date = new Date();
 
     var Today = moment(date); //now
-
-    data?.map(
+    console.log("time", timeState);
+    timeState?.map(
       ({ status, Alarm }) =>
-        status == true &&
+        status === true &&
         Notification.scheduleNotificationAsync({
           content: {
             title: "Wakey wakkey its time for school",

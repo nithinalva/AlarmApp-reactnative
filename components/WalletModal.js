@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Modal from "react-native-modal";
 import {
   View,
@@ -9,18 +9,22 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import CustomButon from "./CustomButton";
-import Icons from "react-native-vector-icons/";
 
 import Fonts from "../res/Fonts";
 import colors from "../res/colors";
-import { useDispatch } from "react-redux";
-import { addAlert, addMoney } from "../reducers/WalletSlice";
+
+import WalletContext from "../context/store/WalletContext";
+import { ADD_MONEY, SUCCESS } from "../context/actions/action.types";
+import AlertContext from "../context/store/AlertContext";
 
 const WalletModal = ({ visible, toggle }) => {
-  const dispatch = useDispatch();
+  const { walletDispatch } = useContext(WalletContext);
+  const { alertDispatch } = useContext(AlertContext);
+
   const [wallet, setWallet] = useState("");
   const [PaymentStatus, setPaymentStatus] = useState(false);
+
+  //contxt api i call a dispatch here
 
   const walletInputHandler = (value) => {
     setWallet(value);
@@ -32,8 +36,18 @@ const WalletModal = ({ visible, toggle }) => {
       console.warn("please input a field");
     } else {
       // toggle();
-      dispatch(addMoney(parseInt(wallet)));
-      dispatch(addAlert({ msg: "success", money: wallet }));
+
+      alertDispatch({
+        type: SUCCESS,
+
+        status: "success",
+        amount: wallet,
+      });
+      walletDispatch({
+        type: ADD_MONEY,
+        payload: parseInt(wallet),
+      });
+
       setPaymentStatus(true);
     }
   };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -22,14 +22,19 @@ import { v4 as uuidv4 } from "uuid";
 
 import Fonts from "../res/Fonts";
 import Icon from "react-native-vector-icons/Ionicons";
-import { useDispatch, useSelector } from "react-redux";
+
 import { addTime, selectTime } from "../reducers/TimeSlice";
 import moment from "moment";
+import AlarmContext from "../context/store/AlarmContext";
+import { ADD_TIME } from "../context/actions/action.types";
 
 const Alarm = () => {
+  useEffect(() => {}, []);
   const { width, height } = Dimensions.get("window");
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const { timeState, timeDispatch } = useContext(AlarmContext);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -39,9 +44,7 @@ const Alarm = () => {
     setDatePickerVisibility(false);
   };
 
-  const dispatch = useDispatch();
-  const timeData = useSelector(selectTime);
-  // console.log(timeData.time);
+  // console.log(timeData.time)
 
   const dateFormat = (data) => {
     console.log("indi", data);
@@ -55,7 +58,11 @@ const Alarm = () => {
       Alarm: event.toISOString(),
     };
 
-    dispatch(addTime(time));
+    // dispatch(addTime(time));
+    timeDispatch({
+      type: ADD_TIME,
+      payload: time,
+    });
   };
 
   return (
@@ -103,8 +110,8 @@ const Alarm = () => {
       <View style={styles.TimeSlots}>
         <SafeAreaView>
           <ScrollView>
-            {timeData.time.length > 0 ? (
-              timeData.time.map((t, index) => (
+            {timeState.length > 0 ? (
+              timeState.map((t, index) => (
                 <TimeCard
                   time={t.time}
                   date={t.date}

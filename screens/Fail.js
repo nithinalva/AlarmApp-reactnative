@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Dimensions,
   Image,
@@ -7,10 +7,36 @@ import {
   View,
   StyleSheet,
   Text,
+  Alert,
+  BackHandler,
 } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 import Fonts from "../res/Fonts";
 const { width, height } = Dimensions.get("screen");
+
 const Failcase = () => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to go back?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel",
+        },
+        { text: "YES", onPress: () => navigation.navigate("Alarm") },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <View style={{ width, height, backgroundColor: "#fff" }}>
       <StatusBar />

@@ -1,18 +1,22 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, Dimensions, TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet } from "react-native";
 import moment from "moment";
 import Fonts from "../res/Fonts";
 import { Colors } from "react-native-paper";
 import colors from "../res/colors";
-import { NotificationHandler } from "../util/NotificationHandler";
+
 import { useNavigation } from "@react-navigation/core";
-import { SnoozeNotificaiton } from "../util/SnoozeNotification";
 
 import * as Notification from "expo-notifications";
+import WalletContext from "../context/store/WalletContext";
+import { REMOVE_MONEY } from "../context/actions/action.types";
+import AlertContext from "../context/store/AlertContext";
 const Result = () => {
   const { width, height } = Dimensions.get("screen");
+  const { walletDispatch } = useContext(WalletContext);
+  const { alertDispatch } = useContext(AlertContext);
   const navigation = useNavigation();
 
   Notification.setNotificationHandler({
@@ -25,12 +29,14 @@ const Result = () => {
     },
   });
 
-  const text = () => {
+  //pops up after 10 sec's of snooze
+  const AlarmSnooze = () => {
     Notification.addNotificationResponseReceivedListener((handleResponse) => {
-      console.log("clciked", handleResponse.notification);
+      // console.log("clciked", handleResponse.notification);
       navigation.navigate("Result");
     });
     // const navigation = useNavigation();
+
     Notification.scheduleNotificationAsync({
       content: {
         title: "W A K M E",
@@ -38,10 +44,30 @@ const Result = () => {
       },
 
       trigger: {
-        seconds: 10,
+        seconds: 20,
       },
     });
   };
+
+  //pops up when user presses on the snooze
+  const NotificationHandler = (msg) => {
+    Notification.addNotificationResponseReceivedListener((handleResponse) => {
+      // console.log("clciked", handleResponse.notification);
+      navigation.navigate("Result");
+    });
+    // const navigation = useNavigation();
+    Notification.scheduleNotificationAsync({
+      content: {
+        title: "W A K M E",
+        body: msg,
+      },
+
+      trigger: {
+        seconds: 1,
+      },
+    });
+  };
+
   return (
     <View style={(width, height)}>
       <SafeAreaView style={{ flex: 1 }}>
@@ -80,10 +106,8 @@ const Result = () => {
           >
             <TouchableOpacity
               onPress={() => {
-                NotificationHandler(
-                  "Hurray !! Time is money and you saved your money"
-                );
                 navigation.navigate("success");
+                NotificationHandler("Hurray!! you woke up");
               }}
             >
               <Text style={{ textAlign: "center" }}>Close</Text>
@@ -101,9 +125,14 @@ const Result = () => {
           >
             <TouchableOpacity
               onPress={() => {
-                NotificationHandler("You have snoozed your alarm for 5 secs");
-                text();
+                //
+                AlarmSnooze();
+                NotificationHandler("you snoozed Alarm to 20 sec");
                 navigation.navigate("Fail");
+                walletDispatch({
+                  type: REMOVE_MONEY,
+                  payload: 20,
+                });
               }}
             >
               <Text>Snooze</Text>
